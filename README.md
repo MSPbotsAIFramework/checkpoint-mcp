@@ -115,13 +115,13 @@ cached or persisted across MCP requests.
 .../jobs/{jobId}` until the job leaves an in-progress state (this server
 polls every 1s, up to a 30s timeout, per tool call).
 
-### HEADER 授权参数说明
+### HEADER Authentication Parameters
 
-| Header | 类型 | 是否必填 | 默认值 | 枚举值 | 字段描述 | Example |
+| Header | Type | Required | Default | Allowed values | Description | Example |
 |---|---|---|---|---|---|---|
-| `X-CheckPoint-Client-Id` | string | 是 | 无 | 无 | Infinity Portal API Key 的 Client ID | `45217fa1-6c33-4389-a169-909fa72e99dd` |
-| `X-CheckPoint-Access-Key` | string | 是 | 无 | 无 | Infinity Portal API Key 的 Secret/Access Key | `911b25e9-149a-45b3-a9a7-a9d43be24635` |
-| `X-CheckPoint-Region` | string | 是 | 无 | `https://cloudinfra-gw-us.portal.checkpoint.com`（US）、`https://cloudinfra-gw.portal.checkpoint.com`（EU）、`https://cloudinfra-gw.ap.portal.checkpoint.com`（AP） | 租户所在数据驻留区域的网关地址，与 MSPbots 集成配置里的 Region 下拉选项一致 | `https://cloudinfra-gw.ap.portal.checkpoint.com` |
+| `X-CheckPoint-Client-Id` | string | Yes | None | None | Client ID of the Infinity Portal API Key | `45217fa1-6c33-4389-a169-909fa72e99dd` |
+| `X-CheckPoint-Access-Key` | string | Yes | None | None | Secret/Access Key of the Infinity Portal API Key | `911b25e9-149a-45b3-a9a7-a9d43be24635` |
+| `X-CheckPoint-Region` | string | Yes | None | `https://cloudinfra-gw-us.portal.checkpoint.com` (US), `https://cloudinfra-gw.portal.checkpoint.com` (EU), `https://cloudinfra-gw.ap.portal.checkpoint.com` (AP) | Gateway address of the tenant's data residency region, matching the Region dropdown options in the MSPbots integration configuration | `https://cloudinfra-gw.ap.portal.checkpoint.com` |
 
 Missing any header returns `401`:
 ```json
@@ -135,10 +135,10 @@ Missing any header returns `401`:
 
 ## Environment Variables
 
-| Variable | 类型 | 是否必填 | 默认值 | 说明 |
+| Variable | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `MCP_HTTP_PORT` | int | 否 | `8080` | HTTP 监听端口 |
-| `MCP_HTTP_HOST` | string | 否 | `0.0.0.0` | HTTP 监听地址 |
+| `MCP_HTTP_PORT` | int | No | `8080` | HTTP listen port |
+| `MCP_HTTP_HOST` | string | No | `0.0.0.0` | HTTP listen address |
 
 ## MCP Endpoint
 
@@ -147,24 +147,24 @@ Missing any header returns `401`:
 
 ## Tool List
 
-| Tool | 功能 | 参数 |
+| Tool | Description | Parameters |
 |---|---|---|
-| `checkpoint_get_policy_metadata` | 列出所有 Harmony Endpoint 策略规则的元数据 | 无 |
-| `checkpoint_get_policy_modifications` | 获取指定策略规则的修改历史 | `rule_id`（必填） |
-| `checkpoint_get_policy_assignments` | 获取指定策略规则的分配对象 | `rule_id`（必填） |
-| `checkpoint_get_computers_filtered` | 列出受管计算机/端点（可选过滤条件） | `filter`（可选，vendor 自定义过滤对象） |
-| `checkpoint_search_organization_tree` | 搜索组织架构树（组/用户/计算机） | `search_term`、`search_type`、`entity_types`、`offset`、`page_size`（均可选） |
-| `checkpoint_get_vulnerability_data` | 列出组织级漏洞态势数据 | `offset`、`page_size`（均可选） |
-| `checkpoint_get_vulnerability_devices` | 获取指定设备的漏洞态势详情 | `device_ids`（必填），`offset`、`page_size`（可选） |
-| `checkpoint_get_vulnerability_scan_status` | 获取漏洞扫描状态 | 无 |
-| `checkpoint_get_quarantine_files` | 列出隔离区文件 | `offset`、`page_size`（均可选） |
-| `checkpoint_get_remediation_status` | 列出修复/响应操作的状态 | 无 |
-| `checkpoint_get_remediation_results_slim` | 获取指定修复操作的简要结果 | `remediation_id`（必填），`offset`、`page_size`（可选） |
+| `checkpoint_get_policy_metadata` | List the metadata of all Harmony Endpoint policy rules | None |
+| `checkpoint_get_policy_modifications` | Get the modification history of the specified policy rule | `rule_id` (required) |
+| `checkpoint_get_policy_assignments` | Get the assignment targets of the specified policy rule | `rule_id` (required) |
+| `checkpoint_get_computers_filtered` | List managed computers/endpoints (optional filter) | `filter` (optional, vendor-defined filter object) |
+| `checkpoint_search_organization_tree` | Search the organization tree (groups/users/computers) | `search_term`, `search_type`, `entity_types`, `offset`, `page_size` (all optional) |
+| `checkpoint_get_vulnerability_data` | List organization-level vulnerability posture data | `offset`, `page_size` (all optional) |
+| `checkpoint_get_vulnerability_devices` | Get vulnerability posture details of the specified devices | `device_ids` (required), `offset`, `page_size` (optional) |
+| `checkpoint_get_vulnerability_scan_status` | Get vulnerability scan status | None |
+| `checkpoint_get_quarantine_files` | List quarantine files | `offset`, `page_size` (all optional) |
+| `checkpoint_get_remediation_status` | List the status of remediation/response operations | None |
+| `checkpoint_get_remediation_results_slim` | Get the brief result of the specified remediation operation | `remediation_id` (required), `offset`, `page_size` (optional) |
 
 Responses are the vendor's job-result JSON, pretty-printed
 (`{"status": "DONE", "statusCode": ..., "data": ...}`), returned as-is.
 
-## 测试示例
+## Test Example
 
 ```bash
 # Health check
